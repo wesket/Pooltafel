@@ -8,7 +8,8 @@
 
 <script src="js/three.js"></script>
 <script src="js/OrbitControls.js"></script>
-<script src="js/OBJLoader.js"></script>
+<script src="js/loaders/OBJLoader.js"></script>
+<script src="js/Ball.js"></script>
 
 <script>
 
@@ -63,14 +64,14 @@
 
         var lakenMesh = new THREE.Mesh(lakenGeometry, lakenMaterial);
 
-        scene.add(lakenMesh);
+        //scene.add(lakenMesh);
 
         // Add OrbitControls so that we can pan around with the mouse.
         controls = new THREE.OrbitControls(camera, renderer.domElement);
 
         //poolball
         var shinyWhiteMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
-        var sphereGeometry = new THREE.SphereGeometry(0.25, 32, 32);
+        var sphereGeometry = new THREE.SphereGeometry(0.10, 32, 32);
         var sphereMeshW = new THREE.Mesh(sphereGeometry, shinyWhiteMaterial);
         sphereGeometry.translate(0,0.3,0);
 
@@ -91,7 +92,7 @@
         // load a resource
         loader.load(
             // resource URL
-            'obj/cube.obj',
+            'obj/pooltable.obj',
             // Function when resource is loaded
             function ( object ) {
                 scene.add( object );
