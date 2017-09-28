@@ -73,7 +73,7 @@
         var shinyWhiteMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
         var sphereGeometry = new THREE.SphereGeometry(0.10, 32, 32);
         var sphereMeshW = new THREE.Mesh(sphereGeometry, shinyWhiteMaterial);
-        sphereGeometry.translate(0,0.3,0);
+        sphereGeometry.translate(0, 0.0375, 0);
 
 
         scene.add(sphereMeshW);
@@ -98,6 +98,32 @@
                 scene.add( object );
             }
         );
+
+        this.balls = [
+            new Ball(0, -13.5 / 2),
+
+            new Ball(0, 4 + 2.75, 0.3075),
+
+            new Ball(-0.32, 4.6 + 2.75, 0.3075),
+            new Ball(0.32, 4.6 + 2.75, 0.3075),
+
+            new Ball(0, 5.2 + 2.75, 0.3075),
+            new Ball(0.64, 5.2 + 2.75, 0.3075),
+            new Ball(-0.64, 5.2 + 2.75, 0.3075),
+
+            new Ball(0.32, 5.8 + 2.75, 0.3075),
+            new Ball(-0.32, 5.8 + 2.75, 0.3075),
+            new Ball(0.96, 5.8 + 2.75, 0.3075),
+            new Ball(-0.96, 5.8 + 2.75, 0.3075),
+
+            new Ball(0, 6.4 + 2.75, 0.3075),
+            new Ball(0.64, 6.4 + 2.75, 0.3075),
+            new Ball(-0.64, 6.4 + 2.75, 0.3075),
+            new Ball(1.28, 6.4 + 2.75, 0.3075),
+            new Ball(-1.28, 6.4 + 2.75, 0.3075)
+        ];
+        scene.add(this);
+
 
 
     }
