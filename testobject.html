@@ -1,16 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Treehouse Logo in three.js</title>
+    <title>Pooltafel</title>
     <meta charset="utf-8">
+
+    <style>html, body {margin: 0; height: 100%; overflow: hidden}</style>
+    
+    <script src="js/three.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="js/loaders/OBJLoader.js"></script>
+    <script src="js/Ball.js"></script>
 </head>
-<body style="margin: 0;">
-
-<script src="js/three.js"></script>
-<script src="js/OrbitControls.js"></script>
-<script src="js/loaders/OBJLoader.js"></script>
-<script src="js/Ball.js"></script>
-
+<body>
 <script>
 
     // Set up the scene, camera, and renderer as global variables.
@@ -57,10 +58,7 @@
 
         // Load in the mesh and add it to the scene.
         var lakenTexture = new THREE.ImageUtils.loadTexture("textures/laken.png");
-        var lakenMaterial = new THREE.MeshLambertMaterial({
-            map: lakenTexture,
-            side: THREE.DoubleSide
-        });
+        var lakenMaterial = new THREE.MeshLambertMaterial( {map: lakenTexture} );
 
         var lakenGeometry = new THREE.BoxGeometry(3, 0.01, 6);
 
