@@ -1,16 +1,12 @@
 class Ball extends THREE.Mesh{
 
- constructor(x = 0, z = 0, radius = 0.3075){
+    constructor(x, z, radius = 0.09){        
+        let geometry = new THREE.SphereGeometry(radius, 12, 12),
+            material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+        super (geometry, material);
 
-     let geometry = new THREE.SphereGeometry(0.10, 36, 36),
-         material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
-     super (geometry, material);
-
-     this.position.set(x,z,radius);
-     scene.add(this);
-
-
-
-}
+        this.position.set(x, radius, z);
+        scene.add(this);
+    }
 
 }
