@@ -10,6 +10,7 @@
 <script src="js/OrbitControls.js"></script>
 <script src="js/loaders/OBJLoader.js"></script>
 <script src="js/Ball.js"></script>
+<script src="js/Scene.js"></script>
 
 <script>
 
@@ -54,7 +55,7 @@
         scene.add(light);
 
         // Load in the mesh and add it to the scene.
-        var lakenTexture = new THREE.ImageUtils.loadTexture("textures/laken.png");
+        /*var lakenTexture = new THREE.ImageUtils.loadTexture("textures/laken.png");
         var lakenMaterial = new THREE.MeshLambertMaterial({
             map: lakenTexture,
             side: THREE.DoubleSide
@@ -64,22 +65,14 @@
 
         var lakenMesh = new THREE.Mesh(lakenGeometry, lakenMaterial);
 
-        //scene.add(lakenMesh);
+        scene.add(lakenMesh); */
 
         // Add OrbitControls so that we can pan around with the mouse.
         controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-        //poolball
-        var shinyWhiteMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
-        var sphereGeometry = new THREE.SphereGeometry(0.10, 32, 32);
-        var sphereMeshW = new THREE.Mesh(sphereGeometry, shinyWhiteMaterial);
-        sphereGeometry.translate(0, 0.0375, 0);
-
-
-        scene.add(sphereMeshW);
-
 
         //keu
+        var shinyWhiteMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
         var keuGeometry = new THREE.CylinderGeometry(0.1, 0.2, 8, 32, 32 );
         var keuMesh = new THREE.Mesh(keuGeometry, shinyWhiteMaterial);
 
@@ -95,6 +88,7 @@
             'obj/pooltable.obj',
             // Function when resource is loaded
             function ( object ) {
+
                 scene.add( object );
             }
         );
@@ -122,7 +116,9 @@
             new Ball(1.28, 6.4 + 2.75, 0.3075),
             new Ball(-1.28, 6.4 + 2.75, 0.3075)
         ];
-        scene.add(this);
+        scene.add(this.balls);
+
+
 
 
 
