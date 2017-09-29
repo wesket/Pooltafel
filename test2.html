@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Treehouse Logo in three.js</title>
+    <meta charset="utf-8">
+</head>
+<body style="margin: 0;">
+
+<script src="js/three.js"></script>
+<script src="js/OrbitControls.js"></script>
+
+<script>
+
+    // Set up the scene, camera, and renderer as global variables.
+    var scene, camera, renderer;
+
+    init();
+    animate();
+
+    // Sets up the scene.
+    function init() {
+
+        // Create the scene and set the scene size.
+        scene = new THREE.Scene();
+        var WIDTH = window.innerWidth;
+        var HEIGHT = window.innerHeight;
+
+        // Create a renderer and add it to the DOM.
+        renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setClearColor(0xCCCCFF, 1);
+        renderer.setSize(WIDTH, HEIGHT);
+        document.body.appendChild(renderer.domElement);
+
+        // Create a camera, zoom it out from the model a bit, and add it to the scene.
+        camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
+        camera.position.set(0,6,0);
+        scene.add(camera);
+
+        // Create an event listener that resizes the renderer with the browser window.
+        window.addEventListener('resize', function() {
+            var WIDTH = window.innerWidth,
+                    HEIGHT = window.innerHeight;
+            renderer.setSize(WIDTH, HEIGHT);
+            camera.aspect = WIDTH / HEIGHT;
+            camera.updateProjectionMatrix();
+        });
+
+
+        // Create a light, set its position, and add it to the scene.
+        var light = new THREE.PointLight(0xffffff);
+        light.position.set(-100,200,100);
+        scene.add(light);
+
+        // Load in the mesh and add it to the scene.
+        var lakenTexture = new THREE.ImageUtils.loadTexture("textures/laken.png");
+        var lakenMaterial = new THREE.MeshLambertMaterial({
+            map: lakenTexture,
+            side: THREE.DoubleSide
+        });
+
+        var lakenGeometry = new THREE.BoxGeometry(10.0, 0.01, 25.0);
+
+        var lakenMesh = new THREE.Mesh(lakenGeometry, lakenMaterial);
+
+        scene.add(lakenMesh);
+
+        // Add OrbitControls so that we can pan around with the mouse.
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+        //poolball
+        var shinyWhiteMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+        var sphereGeometry = new THREE.SphereGeometry(0.25, 32, 32);
+        var sphereMeshW = new THREE.Mesh(sphereGeometry, shinyWhiteMaterial);
+        sphereGeometry.translate(0,0.3,0);
+
+
+        scene.add(sphereMeshW);
+
+        function Ball (x, z, radius) {
+
+            this.position.set(x, z, radius)
+            var geometry = new THREE.SphereGeometry(radius, 36, 36);
+            var shinyWhiteMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+            super(geometry, shinyWhiteMaterial);
+        }
+        var balls = [
+
+            new Ball(1, 1, 0.3075),
+            new Ball(2, 2, 0.3075),
+            new Ball(1.5, 1.5, 0.3075)
+
+
+        ]
+
+        scene.add(balls);
+
+
+        //keu
+        var keuGeometry = new THREE.CylinderGeometry(0.1, 0.2, 8, 32, 32 );
+        var keuMesh = new THREE.Mesh(keuGeometry, shinyWhiteMaterial);
+
+        keuMesh.visible = false;
+
+        scene.add(keuMesh);
+
+    }
+
+
+
+    // Renders the scene and updates the render as needed.
+    function animate() {
+
+        // Read more about requestAnimationFrame at http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+        requestAnimationFrame(animate);
+
+        // Render the scene.
+        renderer.render(scene, camera);
+        controls.update();
+
+    }
+
+</script>
+
+</body>
+</html>
