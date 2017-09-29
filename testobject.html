@@ -3,6 +3,8 @@
 <head>
     <title>Pooltafel</title>
     <meta charset="utf-8">
+</head>
+<body>
 
     <style>html, body {margin: 0; height: 100%; overflow: hidden}</style>
     
@@ -69,9 +71,59 @@
         // Add OrbitControls so that we can pan around with the mouse.
         controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+        //poolball
+        var shinyWhiteMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+        var sphereGeometry = new THREE.SphereGeometry(0.10, 32, 32);
+        var sphereMeshW = new THREE.Mesh(sphereGeometry, shinyWhiteMaterial);
+        sphereGeometry.translate(0, 0.0375, 0);
+
+
+        scene.add(sphereMeshW);
+
+
+        //keu
+        var keuGeometry = new THREE.CylinderGeometry(0.1, 0.2, 8, 32, 32 );
+        var keuMesh = new THREE.Mesh(keuGeometry, shinyWhiteMaterial);
+
+        keuMesh.visible = false;
+
+        scene.add(keuMesh);
+
         var loader = new THREE.OBJLoader();
 
-        this.balls = [new Ball(0, 0)];
+        // load a resource
+        loader.load(
+            // resource URL
+            'obj/pooltable.obj',
+            // Function when resource is loaded
+            function ( object ) {
+                scene.add( object );
+            }
+        );
+
+        this.balls = [
+            new Ball(0, -13.5 / 2),
+
+            new Ball(0, 4 + 2.75, 0.3075),
+
+            new Ball(-0.32, 4.6 + 2.75, 0.3075),
+            new Ball(0.32, 4.6 + 2.75, 0.3075),
+
+            new Ball(0, 5.2 + 2.75, 0.3075),
+            new Ball(0.64, 5.2 + 2.75, 0.3075),
+            new Ball(-0.64, 5.2 + 2.75, 0.3075),
+
+            new Ball(0.32, 5.8 + 2.75, 0.3075),
+            new Ball(-0.32, 5.8 + 2.75, 0.3075),
+            new Ball(0.96, 5.8 + 2.75, 0.3075),
+            new Ball(-0.96, 5.8 + 2.75, 0.3075),
+
+            new Ball(0, 6.4 + 2.75, 0.3075),
+            new Ball(0.64, 6.4 + 2.75, 0.3075),
+            new Ball(-0.64, 6.4 + 2.75, 0.3075),
+            new Ball(1.28, 6.4 + 2.75, 0.3075),
+            new Ball(-1.28, 6.4 + 2.75, 0.3075)
+        ];
         scene.add(this);
 
         this.test = 1.0;
