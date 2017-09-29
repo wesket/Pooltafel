@@ -118,7 +118,17 @@
         ];
         scene.add(this.balls);
 
+        var lakenTexture = new THREE.ImageUtils.loadTexture("textures/laken.png");
+        var lakenMaterial = new THREE.MeshLambertMaterial({
+            map: lakenTexture,
+            side: THREE.DoubleSide
+        });
 
+        var lakenGeometry = new THREE.BoxGeometry(10.0, 0.01, 25.0);
+
+        var lakenMesh = new THREE.Mesh(lakenGeometry, lakenMaterial);
+
+        scene.add(lakenMesh);
 
 
 

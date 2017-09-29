@@ -2,7 +2,7 @@ class Ball extends THREE.Mesh{
 
  constructor(x = 0, z = 0, radius = 0.3075){
 
-     let geometry = new THREE.SphereGeometry(0.10, 36, 36),
+     let geometry = new THREE.SphereGeometry(radius, 36, 36),
          material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
      super (geometry, material);
 
