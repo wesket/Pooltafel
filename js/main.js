@@ -1,5 +1,5 @@
 // Set up the scene, camera, and renderer as global variables.
-var mainScene, scene, camera, renderer;
+var count = 0, fps, timer, mainScene, scene, camera, renderer;
 
 init();
 animate();
@@ -34,14 +34,24 @@ function init() {
 
   // Create the scene contents in a separate js file to remove clutter.
   mainScene = new MainScene(scene);
+  timer = new THREE.Clock();
 }
 
 // Renders the scene and updates the render as needed.
 function animate() {
 
-    // Read more about requestAnimationFrame at http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
-    requestAnimationFrame(animate);
+    setTimeout( function() {
+        requestAnimationFrame( animate );
+    }, 1000 / 60 );
 
+    fps = Math.trunc(1.0 / timer.getDelta());
+
+    if (count < 4) {count++;}
+    else {
+      document.getElementById("fps-display").textContent="FPS: " + fps;
+      count = 0;
+    }
+    
     mainScene.update();
 
     // Render the scene.
