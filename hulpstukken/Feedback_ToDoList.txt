@@ -1,0 +1,7 @@
+1: Class maken van Tafel.
+2: Ball laten bewegen + Rand Collission.
+3: Ballen omzetten naar classes zoals bij table.
+4: Ball on Ball Collission (2D collission).
+5: Keu, players etc.
+6: HTML CSS verhaal erbij zetten zodat het visueel werkt.
+7: HTML: Scoreboard + Player name + Win screen(?).
