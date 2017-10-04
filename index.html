@@ -4,83 +4,17 @@
     <meta charset=utf-8>
     <title>Pooltafelp</title>
     <style>
-        body { margin: 0; }
         canvas { width: 100%; height: 100% }
+        html, body {margin: 0; height: 100%; overflow: hidden}
     </style>
 </head>
 <body>
 <script src="js/three.js"></script>
-<script>
-    var scene, camera, renderer;
+<script src="js/OrbitControls.js"></script>
+<script src="js/loaders/OBJLoader.js"></script>
+<script src="js/table.js"></script>
+<script src="js/mainScene.js"></script>
+<script src="js/main.js"></script>
 
-    init();
-
-    function init() {
-
-        //scene
-        scene = new THREE.scene();
-        var width = innerWidth;
-        var height = innerHeight;
-
-        //renderer
-        //renderer = new THREE.WebGLRenderer({antialias: true});
-        var renderer = new THREE.WebGLRenderer();
-        renderer.setSize(width, height);
-        document.body.appendChild(renderer.domElement);
-
-        //camera
-        camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2000);
-        camera.position.set(0,10,22);
-        scene.add(camera);
-
-        //resize
-        window.addEventListener('resize', function () {
-            var width = innerWidth;
-            var height = innerHeight;
-            renderer.setSize(width, height);
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-        });
-
-        //background color
-        renderer.setClearColorHex(0x333F47, 1);
-
-        lightning
-        var light = new THREE.PointLight(0xffffff);
-        light.position.set(-100, 200, 100);
-        scene.add(light);
-
-        //geometry
-        var lakenTexture = new THREE.ImageUtils.loadTexture("textures/laken.png");
-        var lakenMaterial = new THREE.MeshLambertMaterial({
-            map: lakenTexture,
-            side: THREE.DoubleSide
-        });
-
-        var lakenGeometry = new THREE.BoxGeometry(10.0, 0.01, 25.0);
-
-        var lakenMesh = new THREE.Mesh(lakenGeometry, lakenMaterial);
-
-        scene.add(lakenMesh);
-
-
-
-        function Ball (x, z, radius) {
-
-            this.position.set(x, z, radius)
-            var geometry = new THREE.SphereGeometry(radius, 36, 36);
-            var shinyWhiteMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
-            super(geometry, shinyWhiteMaterial);
-        }
-        new Ball(1, 1, 0.3075)
-    }
-
-    function animate() {
-        requestAnimationFrame( animate );
-        renderer.render( scene, camera );
-
-    }
-    animate();
-</script>
 </body>
 </html>
