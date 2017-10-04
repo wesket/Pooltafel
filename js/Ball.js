@@ -16,8 +16,5 @@ class Ball extends THREE.Mesh{
         this.striped = striped;
         this.position.set(x, radius, z);
         scene.add(this);
-
-
-    }
-
+      }
 }
