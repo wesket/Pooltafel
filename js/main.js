@@ -32,6 +32,7 @@ function init() {
       camera.updateProjectionMatrix();
   });
 
+  // Create the scene contents in a separate js file to remove clutter.
   mainScene = new MainScene(scene);
 }
 
