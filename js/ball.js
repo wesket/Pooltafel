@@ -5,7 +5,7 @@ class Ball extends THREE.Mesh {
         let map = textureLoader.load(`textures/balls/${number}.png`);
 
         let geometry = new THREE.SphereGeometry(radius, 16, 16),
-            material = new THREE.MeshPhongMaterial({map: map});
+        material = new THREE.MeshPhongMaterial({map: map});
         super (geometry, material);
 
         this.striped = striped;
@@ -14,44 +14,58 @@ class Ball extends THREE.Mesh {
 
         this.collided = false;
         this.radius = radius;
-        this.speed = 1.0;
-        this.xD = 0.7, this.zD = 1.0;
+        this.speed = 0.0;
+        this.xD = 0.0, this.zD = 0.0;
         this.translateVector = new THREE.Vector3(this.xD,0,this.zD).normalize();
         this.rotationVector = new THREE.Vector3(1,0,0.7).normalize();
-      }
 
-      move(delta) {
-          this.position.x += this.xD * this.speed * delta;
-          this.position.z += this.zD * this.speed * delta;
-      }
+        if (number === 0) {
+            this.speed = 1.0;
+            this.zD = 1.0;
+        }
+    }
 
-      collide(balls) {
-          // ------------------------ Wall collisions ------------------------
-          if (this.position.x >= 1.4 || this.position.x <= -1.4) {
-              this.xD *= -1;
-              this.position.x = (this.xD < 0) ? 1.39 : -1.39;
-          }
+    move(delta) {
+        this.position.x += this.xD * this.speed * delta;
+        this.position.z += this.zD * this.speed * delta;
+    }
 
-          if (this.position.z >= 2.8 || this.position.z <= -2.8) {
-              this.zD *= -1;
-              this.position.z = (this.zD < 0) ? 2.79 : -2.79;
-          }
+    collide(balls) {
+        // ------------------------ Wall collisions ------------------------
+        if (this.position.x >= 1.4 || this.position.x <= -1.4) {
+            this.xD *= -1;
+            this.position.x = (this.xD < 0) ? 1.39 : -1.39;
+        }
 
-          // ------------------------ Ball collisions ------------------------
-          // Werkt geweldig, niet zeuren :ok_hand:
-          for (let b of balls) {
-              if (this.position.distanceTo(b.position) <= this.radius && this.position != b.position) {
-                  b.zD = this.zD;
-                  b.xD = this.xD;
-                  b.speed = this.speed;
-                  this.collided = true;
-              }
+        if (this.position.z >= 2.8 || this.position.z <= -2.8) {
+            this.zD *= -1;
+            this.position.z = (this.zD < 0) ? 2.79 : -2.79;
+        }
 
-              if (this.collided) {
-                  this.speed = 0;
-                  this.collided = false;
-              }
-          }
+        // ------------------------ Ball collisions ------------------------
+        // Werkt geweldig, niet zeuren :ok_hand:
+        for (let b of balls) {
+            if (this.position.distanceTo(b.position) <= this.radius*2 &&
+                this.position != b.position) {
 
-      }
+                let v = new THREE.Vector2 (
+                    b.position.x - this.position.x,
+                    b.position.z - this.position.z
+                ).normalize();
+
+                b.xD = v.x;
+                b.zD = v.y;
+
+                b.speed = this.speed;
+                this.collided = true;
+            }
+        }
+
+        for (let b of balls) {
+            if (b.collided) {
+                b.collided = false;
+            }
+        }
+
+    }
 }

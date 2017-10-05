@@ -21,27 +21,9 @@ class MainScene {
     scene.add(keuMesh);
 
     balls = [
-        new Ball(0, -1.5, 0.10,0, false),
-
-        new Ball(0, 1.3, 0.10, 1, false),
-
-        new Ball(-0.10, 1.5, 0.10, 2, false),
-        new Ball(0.10, 1.5, 0.10, 3, false),
-
-        new Ball(0, 1.7, 0.10, 8, false),
-        new Ball(0.20, 1.7, 0.10, 5, false),
-        new Ball(-0.20, 1.7, 0.10, 6, false),
-
-        new Ball(0.30, 1.9, 0.10, 7, false),
-        new Ball(-0.30, 1.9, 0.10, 4, false),
-        new Ball(0.10, 1.9,0.10,  9, true),
-        new Ball(-0.10, 1.9, 0.10, 10, true),
-
-        new Ball(0, 2.1, 0.10, 11, true),
-        new Ball(0.40, 2.1, 0.10, 12, true),
-        new Ball(-0.40, 2.1, 0.10, 13, true),
-        new Ball(0.20, 2.1, 0.10, 14, true),
-        new Ball(-0.20, 2.1, 0.10, 15, true)
+        new Ball(0, -1.5, 0.10, 0, false),
+        new Ball(0.1, 1.3, 0.10, 1, false),
+        new Ball(-0.1, 1.3, 0.10, 2, false)
     ];
 
   }
