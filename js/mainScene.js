@@ -1,4 +1,4 @@
-var balls, test = 1.0, test2 = 1.0;
+var balls;
 
 class MainScene {
   constructor(scene) {
@@ -20,7 +20,7 @@ class MainScene {
 
     scene.add(keuMesh);
 
-      balls = [
+    balls = [
         new Ball(0, -1.5, 0.10,0, false),
 
         new Ball(0, 1.3, 0.10, 1, false),
@@ -43,22 +43,14 @@ class MainScene {
         new Ball(0.20, 2.1, 0.10, 14, true),
         new Ball(-0.20, 2.1, 0.10, 15, true)
     ];
+
   }
 
-  update() {
-    if (balls[0].position.z >= 2.8)
-        test = -1.0;
+  update(delta) {
 
-    if (balls[0].position.z <= -2.8)
-        test = 1.0;
-
-    if (balls[0].position.x >= 1.4)
-        test2 = -1.0;
-
-    if (balls[0].position.x <= -1.4)
-        test2 = 1.0;
-
-    balls[0].position.z += 0.05 * test;
-    balls[0].position.x += 0.04 * test2;
+      for (let i = 0; i < balls.length; i++) {
+          balls[i].move(delta);
+          balls[i].collide(balls);
+      }
   }
 }

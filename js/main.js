@@ -1,5 +1,5 @@
 // Set up the scene, camera, and renderer as global variables.
-var count = 0, fps, timer, mainScene, scene, camera, renderer;
+var count = 0, fps, delta, timer, mainScene, scene, camera, renderer;
 
 init();
 animate();
@@ -40,19 +40,18 @@ function init() {
 // Renders the scene and updates the render as needed.
 function animate() {
 
-    setTimeout( function() {
-        requestAnimationFrame( animate );
-    }, 1000 / 60 );
+    requestAnimationFrame( animate );
 
-    fps = Math.trunc(1.0 / timer.getDelta());
+    delta = timer.getDelta();
+    fps = Math.trunc(1.0 / delta);
 
-    if (count < 4) {count++;}
+    if (count < 20) {count++;}
     else {
       document.getElementById("fps-display").textContent="FPS: " + fps;
       count = 0;
     }
-    
-    mainScene.update();
+
+    mainScene.update(delta);
 
     // Render the scene.
     renderer.render(scene, camera);
