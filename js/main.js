@@ -6,6 +6,8 @@ animate();
 
 function init() {
 
+	three.shot_line.visible = true;
+
   scene = new THREE.Scene();
   aspect = window.innerWidth / window.innerHeight;
   camera = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 );
@@ -51,6 +53,7 @@ function animate() {
       document.getElementById("fps-display").textContent="FPS: " + fps;
       count = 0;
     }
+
     
     mainScene.update();
 

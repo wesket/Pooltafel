@@ -7,6 +7,8 @@ class Table {
       map: texLoader.load("textures/laken.png")
     });
 
+    
+
     loader.load(
       "obj/pooltable.obj",
       function ( object ) {

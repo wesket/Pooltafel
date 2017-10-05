@@ -1,4 +1,4 @@
-var balls, test = 1.0, test2 = 1.0;
+var balls, white, test = 1.0, test2 = 1.0, three;
 
 class MainScene {
   constructor(scene) {
@@ -20,8 +20,22 @@ class MainScene {
 
     scene.add(keuMesh);
 
+
+    var line_material = new THREE.MeshLambertMaterial({color: 0xffffff});
+		var shot_line = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 100, 50, 50, false), line_material);
+		shot_line.rotation.z = 0;
+		shot_line.position.x = 150 + 50*Math.sin(shot_line.rotation.z);
+		shot_line.position.y = 0 + 50*Math.cos(shot_line.rotation.z);
+		shot_line.position.z = -4;
+		shot_line.overdraw = true;
+		shot_line.translate(2,2, 2);
+		scene.add(shot_line);
+
+		//white = [ new White(0, -1.5, 0.10, 0, false) ];
+
       balls = [
-        new Ball(0, -1.5, 0.10,0, false),
+
+        new Ball(0, -1.5, 0.10, 0, false),
 
         new Ball(0, 1.3, 0.10, 1, false),
 
@@ -43,6 +57,16 @@ class MainScene {
         new Ball(0.20, 2.1, 0.10, 14, true),
         new Ball(-0.20, 2.1, 0.10, 15, true)
     ];
+
+		three = {
+			renderer: renderer,
+			camera: camera,
+			scene: scene,
+			balls: balls,
+			shot_line: shot_line,
+
+		};
+
   }
 
   update() {
