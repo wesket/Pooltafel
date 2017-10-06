@@ -20,6 +20,7 @@ class Ball extends THREE.Mesh {
         this.rotationVector = new THREE.Vector3(1,0,0.7).normalize();
       }
 
+
       move(delta) {
           this.position.x += this.xD * this.speed * delta;
           this.position.z += this.zD * this.speed * delta;

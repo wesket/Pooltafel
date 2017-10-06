@@ -1,5 +1,6 @@
 var balls;
-
+var keuMesh;
+var wball;
 class MainScene {
   constructor(scene) {
     var table = new Table(scene);
@@ -14,9 +15,22 @@ class MainScene {
     var keuGeometry = new THREE.CylinderGeometry(0.025, 0.05, 4, 32, 32),
         keuMaterial = new THREE.MeshStandardMaterial({ color: 0xfda43a }),
         keuMesh = new THREE.Mesh(keuGeometry, keuMaterial);
-    keuGeometry.translate(0, -2, 2);
+    keuMesh.position.y= 0.3;
+    keuMesh.rotateX(Math.PI/2);
+    keuMesh.position.z -=3.6;
+    keuMesh.rotateX(0.1);
 
-    keuGeometry.rotateX(90);
+    this.cue = new THREE.Group();
+    this.cue.add(keuMesh);
+    this.cue.position.set(0, 0.10, -6,75);
+
+    let randomStartRotation = 0.07;
+    this.cue.rotateY(randomStartRotation/2 -Math.random() * randomStartRotation);
+
+
+
+    scene.add(this.cue);
+
 
     scene.add(keuMesh);
 
@@ -43,6 +57,8 @@ class MainScene {
         new Ball(0.20, 2.1, 0.10, 14, true),
         new Ball(-0.20, 2.1, 0.10, 15, true)
     ];
+
+    wball = new Ball(0, -1.5, 0.10);
 
   }
 
