@@ -1,6 +1,6 @@
 var balls;
 var keuMesh;
-var wball;
+var wballS;
 class MainScene {
   constructor(scene) {
     var table = new Table(scene);
