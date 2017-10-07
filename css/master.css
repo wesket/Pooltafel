@@ -18,5 +18,24 @@ html, body {
 .debug-display h4 {
   margin: 0;
   color: #FFFF00;
-  text-shadow: 1px 1px #404040;
+  text-shadow: 2px 2px #404040;
 }
+
+.game-display {
+  margin: 0;
+  position: fixed;
+  right: 5px;
+  top: 2px;
+  background-color: gray;
+  font-family: sans-serif;
+}
+
+.game-display h4 {
+  margin: 0;
+  color: #FFFF00;
+  text-shadow: 2px 2px #404040;
+}
+
+.game-display p {
+  margin-right: 5cm;
+ }

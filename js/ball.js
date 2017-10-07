@@ -1,5 +1,3 @@
-var radius = 0.1;
-
 class Ball extends THREE.Mesh {
 
   constructor(x, z, number = 0, striped = false){

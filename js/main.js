@@ -19,6 +19,7 @@ function init() {
 
   document.body.appendChild( renderer.domElement );
 
+
   // Create orbit controls.
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.userPanSpeed = 0;
@@ -30,7 +31,13 @@ function init() {
       renderer.setSize(WIDTH, HEIGHT);
       camera.aspect = WIDTH / HEIGHT;
       camera.updateProjectionMatrix();
+
   });
+
+
+
+
+
 
   // Create the scene contents in a separate js file to remove clutter.
   mainScene = new MainScene(scene);
@@ -39,6 +46,7 @@ function init() {
 
 // Renders the scene and updates the render as needed.
 function animate() {
+
 
     requestAnimationFrame( animate );
 
