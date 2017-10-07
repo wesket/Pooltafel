@@ -12,83 +12,100 @@ class Ball extends THREE.Mesh {
 
     this.striped = striped;
     this.position.set(x, radius, z);
+
     scene.add(this);
 
-    this.size = radius*2;
-    this.velocity = 0.0;
-    this.xD = 0.0, this.zD = 0.0;
+    this.radius = radius;
+
+    this.velocity = new THREE.Vector2(0, 0);
 
     if (number === 0) {
-      this.velocity = 1.5;
-      this.zD = 1.0;
+      this.velocity = new THREE.Vector2(2, 1);
     }
   }
 
   move(delta) {
-    this.position.x += this.xD * this.velocity * delta;
-    this.position.z += this.zD * this.velocity * delta;
-    this.velocity = (this.velocity > 0) ? (this.velocity - 0.2 * delta) : 0;
+    this.position.x += this.velocity.x * delta;
+    this.position.z += this.velocity.y * delta;
   }
 
   collide(balls) {
     // --------------------------- Wall collisions ---------------------------
     if (this.position.x >= 1.4 || this.position.x <= -1.4) {
-      this.xD *= -1;
-      this.position.x = (this.xD < 0) ? 1.39 : -1.39;
+      this.velocity.x *= -1;
+      this.position.x = (this.velocity.x < 0) ? 1.39 : -1.39;
     }
 
     if (this.position.z >= 2.8 || this.position.z <= -2.8) {
-      this.zD *= -1;
-      this.position.z = (this.zD < 0) ? 2.79 : -2.79;
+      this.velocity.y *= -1;
+      this.position.z = (this.velocity.y < 0) ? 2.79 : -2.79;
     }
 
     // --------------------------- Ball collisions ---------------------------
-    // TODO: Work from the ball getting hit instead.
-    // TODO: Implement something to work with moving balls hitting eachother.
-
-    let avgX = 0.0, avgZ = 0.0, collideCount = 0, avgVelocity = 0.0;
-
     for (let b of balls) {
-      if (this != b && this.position.distanceTo(b.position) <= this.size) {
-        avgX += b.position.x;
-        avgZ += b.position.z;
-        avgVelocity += b.velocity;
-        collideCount++;
-
-        let v = new THREE.Vector2 (
+      if (this.position.distanceTo(b.position) <= this.radius*2 && this != b ) {
+        let normal = new THREE.Vector2(
           b.position.x - this.position.x,
           b.position.z - this.position.z
-        ).normalize();
+        );
+        let unitNormal = normal.normalize();
+        let unitTangent = new THREE.Vector2(
+          -unitNormal.y,
+          unitNormal.x
+        );
 
-        b.xD = v.x;
-        b.zD = v.y;
+        let myVelocityN = unitNormal.dot(this.velocity);
+        let myVelocityT = unitTangent.dot(this.velocity);
+        let otherVelocityN = unitNormal.dot(b.velocity);
+        let otherVelocityT = unitTangent.dot(b.velocity);
 
-        b.velocity = this.velocity;
+        let myNewVelocityN = new THREE.Vector2(
+          (myVelocityN + 2 * otherVelocityN) / 2,
+          (myVelocityN + 2 * otherVelocityN) / 2
+        );
+        let otherNewVelocityN = new THREE.Vector2(
+          (otherVelocityN + 2 * myVelocityN) / 2,
+          (otherVelocityN + 2 * myVelocityN) / 2
+        );
+
+        myNewVelocityN = new THREE.Vector2(
+          myNewVelocityN.x * unitNormal.x,
+          myNewVelocityN.y * unitNormal.y
+        );
+        // myVelocityT = new THREE.Vector2(
+        //   myVelocityT.x * unitNormal.x,
+        //   myVelocityT.y * unitNormal.y
+        // );
+        otherNewVelocityN = new THREE.Vector2(
+          otherNewVelocityN.x * unitNormal.x,
+          otherNewVelocityN.y * unitNormal.y
+        );
+        // otherVelocityT = new THREE.Vector2(
+        //   otherVelocityT.x * unitNormal.x,
+        //   otherVelocityT.y * unitNormal.y
+        // );
+
+        // myNewVelocityN.multiply(unitNormal);
+        // myVelocityT.multiply(unitNormal);
+        // otherNewVelocityN.multiply(unitNormal);
+        // otherVelocityT.multiply(unitNormal);
+
+        // this.velocity = new THREE.Vector2(
+        //   myNewVelocityN.x + myVelocityT.x,
+        //   myNewVelocityN.y + myVelocityT.y
+        // );
+        // b.velocity = new THREE.Vector2(
+        //   otherNewVelocityN.x + otherVelocityT.x,
+        //   otherNewVelocityN.y + otherVelocityT.y
+        // );
+
+        this.velocity.addVectors(myNewVelocityN, myVelocityT);
+        b.velocity.addVectors(otherNewVelocityN, otherVelocityT);
+
+        console.log(myVelocityN);
       }
     }
 
-    if (collideCount > 0) {
-      avgX /= collideCount;
-      avgZ /= collideCount;
-      avgVelocity /= collideCount;
-      collideCount = 0;
-
-      this.position.z;
-
-      let v = new THREE.Vector2 (
-        this.position.x - avgX,
-        this.position.z - avgZ
-      ).normalize();
-
-      this.xD = v.x;
-      this.zD = v.y;
-
-      this.velocity = avgVelocity;
-
-      avgX = 0.0;
-      avgZ = 0.0;
-      avgVelocity = 0.0;
-    }
 
   }
 }

@@ -21,15 +21,10 @@ class MainScene {
     scene.add(keuMesh);
 
     balls = [
-        new Ball(0, -1.5, 0, false),
+      new Ball(0, -1.5, 0, false),
 
-        new Ball(0, 1.3, 1, false),
-
-        new Ball(-0.10, 1.5, 2, false),
-        new Ball(0.10, 1.5, 3, false),
-
-        new Ball(0, 1.7, 8, false)
-];
+      new Ball(0, 1.3, 1, false)
+    ];
 
   }
 
@@ -38,6 +33,7 @@ class MainScene {
     for (let i = 0; i < balls.length; i++) {
       balls[i].move(delta);
       balls[i].collide(balls);
+      //balls[i].move(delta);
     }
   }
 }
