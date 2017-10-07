@@ -1,6 +1,6 @@
 class Ball extends THREE.Mesh {
 
-  constructor(x, z, number = 0, striped = false, radius = 0.1){
+  constructor(x, z, number = 0, striped = false, radius = 0.09){
     let textureLoader = new THREE.TextureLoader();
     let map = textureLoader.load(`textures/balls/${number}.png`);
 
@@ -18,7 +18,7 @@ class Ball extends THREE.Mesh {
     this.velocity = new THREE.Vector2(0, 0);
 
     if (number === 0) {
-      this.velocity = new THREE.Vector2(0.1, 10);
+      this.velocity = new THREE.Vector2(0.1, 1);
     }
   }
 
@@ -29,8 +29,8 @@ class Ball extends THREE.Mesh {
     // TODO: Reduce velocity over time.
     this.velocity.divideScalar(1 + 0.8 * delta);
 
-    if ((this.velocity.x > -0.05 && this.velocity.x < 0.05) &&
-        (this.velocity.y > -0.05 && this.velocity.y < 0.05)) {
+    if ((this.velocity.x > -0.03 && this.velocity.x < 0.03) &&
+        (this.velocity.y > -0.03 && this.velocity.y < 0.03)) {
       this.velocity.x = 0.0;
       this.velocity.y = 0.0;
     }
