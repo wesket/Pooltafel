@@ -41,7 +41,7 @@ html, body {
 }
 
 .game-display h4 {
-  margin: 0;
+  margin-left: 3cm;
   color: #FFFF00;
   text-shadow: 2px 2px #404040;
 }
@@ -49,3 +49,26 @@ html, body {
 .game-display p {
   margin-right: 5cm;
  }
+
+.button {
+  position: fixed;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 500px; /* width of button */
+  height: 150px; /* height of button */
+}
+
+.startmenu h1 {
+text-align: center;
+}
+
+.startmenu p {
+text-align: center;
+}
+
+body.startmenu{
+  background-color: green;
+}
