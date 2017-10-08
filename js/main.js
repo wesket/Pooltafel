@@ -26,18 +26,13 @@ function init() {
 
   // Create an event listener that resizes the renderer with the browser window.
   window.addEventListener('resize', function() {
-      var WIDTH = window.innerWidth,
-          HEIGHT = window.innerHeight;
-      renderer.setSize(WIDTH, HEIGHT);
-      camera.aspect = WIDTH / HEIGHT;
-      camera.updateProjectionMatrix();
+    var WIDTH = window.innerWidth,
+    HEIGHT = window.innerHeight;
+    renderer.setSize(WIDTH, HEIGHT);
+    camera.aspect = WIDTH / HEIGHT;
+    camera.updateProjectionMatrix();
 
   });
-
-
-
-
-
 
   // Create the scene contents in a separate js file to remove clutter.
   mainScene = new MainScene(scene);
@@ -46,22 +41,20 @@ function init() {
 
 // Renders the scene and updates the render as needed.
 function animate() {
+  requestAnimationFrame( animate );
 
+  delta = timer.getDelta();
+  fps = Math.trunc(1.0 / delta);
 
-    requestAnimationFrame( animate );
+  if (count < 20) {count++;}
+  else {
+    document.getElementById("fps-display").textContent="FPS: " + fps;
+    count = 0;
+  }
 
-    delta = timer.getDelta();
-    fps = Math.trunc(1.0 / delta);
+  mainScene.update(delta);
 
-    if (count < 20) {count++;}
-    else {
-      document.getElementById("fps-display").textContent="FPS: " + fps;
-      count = 0;
-    }
-
-    mainScene.update(delta);
-
-    // Render the scene.
-    renderer.render(scene, camera);
-    controls.update();
+  // Render the scene.
+  renderer.render(scene, camera);
+  controls.update();
 }

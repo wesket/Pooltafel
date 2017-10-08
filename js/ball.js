@@ -8,31 +8,62 @@ class Ball extends THREE.Mesh {
     material = new THREE.MeshPhongMaterial({map: map});
     super (geometry, material);
 
+    this.number = number;
     this.striped = striped;
     this.position.set(x, radius, z);
+    this.radius = radius;
+    this.velocity = new THREE.Vector2(0, 0);
+    this.direction = new THREE.Vector2(0, 1);
+
+    this.arrowHelper = new THREE.ArrowHelper(
+      new THREE.Vector3(
+        this.direction.x,
+        0,
+        this.direction.y
+      ),
+      this.position,
+      2,
+      0xFF00FF
+    );
+
+    if (this.number === 0) {
+      scene.add( this.arrowHelper );
+    }
 
     scene.add(this);
+  }
 
-    this.radius = radius;
+  pocket(players, table, scene) {
+    for (let p of table.pockets) {
+      if (this.position.distanceTo(p) <= 0.2) {
+        scene.remove(this);
+        this.position.set(0, -100, 0);
+        this.velocity.set(0, 0);
 
-    this.velocity = new THREE.Vector2(0, 0);
-
-    if (number === 0) {
-      this.velocity = new THREE.Vector2(0.1, 1);
+        if (this.number != 0) {
+          players[0].addScore(this, scene);
+          players[1].addScore(this, scene);
+        }
+      }
     }
   }
 
   move(delta) {
+    this.arrowHelper.position.set(
+      this.position.x,
+      this.position.y,
+      this.position.z
+    );
+
     this.position.x += this.velocity.x * delta;
     this.position.z += this.velocity.y * delta;
 
-    // TODO: Reduce velocity over time.
     this.velocity.divideScalar(1 + 0.8 * delta);
 
     if ((this.velocity.x > -0.03 && this.velocity.x < 0.03) &&
         (this.velocity.y > -0.03 && this.velocity.y < 0.03)) {
-      this.velocity.x = 0.0;
-      this.velocity.y = 0.0;
+      this.velocity.x = 0;
+      this.velocity.y = 0;
     }
   }
 
@@ -40,12 +71,12 @@ class Ball extends THREE.Mesh {
     // --------------------------- Wall collisions ---------------------------
     if (this.position.x >= 1.4 || this.position.x <= -1.4) {
       this.velocity.x *= -1;
-      this.position.x = (this.velocity.x < 0) ? 1.39 : -1.39;
+      this.position.x = (this.position.x >= 1.4) ? 1.39 : -1.39;
     }
 
-    if (this.position.z >= 2.8 || this.position.z <= -2.8) {
+    if (this.position.z >= 2.9 || this.position.z <= -2.9) {
       this.velocity.y *= -1;
-      this.position.z = (this.velocity.y < 0) ? 2.79 : -2.79;
+      this.position.z = (this.position.z >= 2.9) ? 2.89 : -2.89;
     }
 
     // --------------------------- Ball collisions ---------------------------

@@ -8,13 +8,23 @@ html, body {
   overflow: hidden;
 }
 
+.game-over {
+  position: absolute;
+  left: 45vw;
+  visibility: hidden;
+}
+.game-over h4, h1{
+  margin: auto;
+  color: #FFFF00;
+  text-shadow: 2px 2px #404040;
+  text-align: center;
+}
+
 .debug-display {
-  margin: 0;
   position: fixed;
   left: 5px;
   top: 2px;
 }
-
 .debug-display h4 {
   margin: 0;
   color: #FFFF00;
