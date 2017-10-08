@@ -2,26 +2,18 @@ var keuMesh, wballS;
 class MainScene {
   constructor(scene) {
     this.scene = scene;
+    let textureLoader = new THREE.TextureLoader();
 
     this.table = new Table(scene);
+    this.room = new Room(scene);
 
-    var pLight = new THREE.PointLight(0x909070);
-    pLight.position.set(0,10,0);
+    var pLight = new THREE.PointLight(0x909070, 1, 50);
+    pLight.position.set(0,3,0);
+    pLight.castShadow = true;
 
-    var aLight = new THREE.AmbientLight(0x404040);
+    var aLight = new THREE.AmbientLight(0x101010);
     aLight.position.set(0,0,0);
     scene.add(pLight, aLight);
-
-		var keuGeometry = new THREE.CylinderGeometry(0.025, 0.05, 4, 32, 32),
-			keuMaterial = new THREE.MeshStandardMaterial({ color: 0xfda43a }),
-			keuMesh = new THREE.Mesh(keuGeometry, keuMaterial);
-		keuMesh.position.y= 0.3;
-		keuMesh.rotateX(Math.PI/2);
-		keuMesh.position.z -=3.6;
-		keuMesh.rotateX(0.1);
-
-
-    this.scene.add(keuMesh);
 
     this.balls = [
       new Ball(0, -1.5,0, false),
@@ -47,26 +39,20 @@ class MainScene {
       new Ball(-0.20, 2.1, 15, true)
     ];
 
+    this.turnHandler = new TurnHandler();
+
     this.players = [
       new Player(1, false, "Player 1", true),
       new Player(2, true, "Player 2")
     ];
     this.speed = 1.0;
     this.gameOver = false;
-    this.turnFinished = false;
-    this.playerTurn = 0;
   }
 
   update(delta, input) {
+    this.turnHandler.update(this.players);
+
     if (!this.gameOver) {
-      for (let b of this.balls) {
-        if (b.velocity.x != 0 && b.velocity.y != 0) {
-          this.turnFinished = false;
-          break;
-        } else {
-          this.turnFinished = true;
-        }
-      }
       for (let b of this.balls) {
         b.collide(this.balls, delta);
         b.move(delta);
@@ -78,14 +64,24 @@ class MainScene {
         if (p.myTurn) {
           p.ready = this.turnFinished;
           p.shootBall(input, this.balls);
+          document.getElementById("turn-display").textContent =
+            p.name + "'s Turn!";
+        }
+        if (p.lost || p.score === 8) {
+          this.gameOver = true;
         }
       }
     }
     else {
       document.getElementById("game-over-div").style.visibility = "visible";
 
-      let s = (this.players[0].score > this.players[1].score) ?
-        this.players[0].name : this.players[1].name;
+      let s = "";
+      if (this.players[0].lost || this.players[1].score === 8) {
+        s = this.players[1].name;
+      }
+      else if (this.players[1].lost || this.players[0].score === 8) {
+        s = this.players[0].name;
+      }
 
       document.getElementById("player-win").textContent = s + " wins!";
     }

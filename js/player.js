@@ -6,21 +6,43 @@ class Player {
     this.striped = striped;
     this.name = name;
     this.myTurn = myTurn;
+    this.lost = false;
+    this.pocketWhite = false;
+    this.pocketBlack = false;
+    this.shot = false;
+    this.finished = false;
     this.ready = false;
   }
 
   displayStats() {
-    //TODO: Implement score display on HUD.
     document.getElementById("score-p" + this.playernum).textContent = "Score: " + this.score;
   }
 
   addScore(ball, scene) {
+    if (this.shot && ball.number === 8) {
+      this.pocketBlack = true;
+    }
+    if (this.shot && ball.number === 0) {
+      this.pocketWhite = true;
+    }
     if (ball.striped === this.striped) {
       this.score++;
     }
   }
 
   shootBall(input, balls) {
+    for (let b of balls) {
+      if (b.velocity.x != 0 && b.velocity.y != 0) {
+        this.ready = false;
+        break;
+      } else {
+        if (this.shot) {
+          this.finished = true;
+        }
+        this.ready = true;
+      }
+    }
+    
     // Left
     if (input.left && this.ready) {
       balls[0].direction.rotateAround(new THREE.Vector2(0, 0), -0.025);
@@ -46,6 +68,7 @@ class Player {
 
     // Space
     if (input.space && this.ready) {
+      this.shot = true;
       balls[0].velocity = new THREE.Vector2(
         balls[0].direction.x * balls[0].shootSpeed,
         balls[0].direction.y * balls[0].shootSpeed
