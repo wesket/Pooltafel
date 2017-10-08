@@ -1,4 +1,4 @@
-class Table {
+	class Table {
   constructor(scene) {
     let objLoader = new THREE.OBJLoader();
     let texLoader =  new THREE.TextureLoader();
