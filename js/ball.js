@@ -33,14 +33,16 @@ class Ball extends THREE.Mesh {
     scene.add(this);
   }
 
-  pocket(players, table, scene) {
+  pocket(players, table, scene, mainScene) {
     for (let p of table.pockets) {
-      if (this.position.distanceTo(p) <= 0.2) {
-        scene.remove(this);
+      if (this.position.distanceTo(p) <= 0.3) {
         this.position.set(0, -100, 0);
         this.velocity.set(0, 0);
 
-        if (this.number != 0) {
+        if (this.number === 8) {
+          mainScene.gameOver = true;
+        }
+        else if (this.number != 0) {
           players[0].addScore(this, scene);
           players[1].addScore(this, scene);
         }

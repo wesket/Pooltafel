@@ -1,9 +1,10 @@
 class Player {
-  constructor(playernum, striped, name) {
+  constructor(playernum, striped, name, turn = false) {
     this.score = 0;
     this.playernum = playernum;
     this.striped = striped;
     this.name = name;
+    this.turn = turn;
   }
 
   displayStats() {
@@ -13,13 +14,6 @@ class Player {
   addScore(ball, scene) {
     if (ball.striped === this.striped) {
       this.score++;
-      if (this.score < 7 && ball.number === 8) {
-        this.score = -99;
-      }
     }
-  }
-
-  shootBall() {
-    
   }
 }

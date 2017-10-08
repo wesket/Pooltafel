@@ -13,7 +13,7 @@ html, body {
   left: 45vw;
   visibility: hidden;
 }
-.game-over h4, h1{
+.game-over h3, h1{
   margin: auto;
   color: #FFFF00;
   text-shadow: 2px 2px #404040;

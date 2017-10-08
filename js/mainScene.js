@@ -49,24 +49,36 @@ class MainScene {
       new Player(2, true, "Player 2")
     ];
     this.speed = 1.0;
+    this.gameOver = false;
+    this.turnFinished = false;
+    this.playerTurn = 0;
   }
 
   update(delta) {
-    this.shoot();
-    for (let b of this.balls) {
-      b.collide(this.balls, delta);
-      b.move(delta);
-      b.pocket(this.players, this.table, this.scene);
+
+    if (!this.gameOver) {
+      for (let b of this.balls) {
+        b.collide(this.balls, delta);
+        b.move(delta);
+        b.pocket(this.players, this.table, this.scene, this);
+      }
+      this.shoot();
+    } else {
+      document.getElementById("game-over-div").style.visibility = "visible";
+
+      let s = (this.players[0].score > this.players[1].score) ?
+        this.players[0].name : this.players[1].name;
+
+      document.getElementById("player-win").textContent = s + " wins!";
     }
+
   }
 
   shoot() {
-    let turnFinished = false;
-
     document.onkeydown = (e, delta) => {
       e = e || window.event;
 
-      if (turnFinished === true && e.keyCode === 37) { //left
+      if (this.turnFinished && e.keyCode === 37) { //left
         this.balls[0].direction.rotateAround(
           new THREE.Vector2(0, 0),
           -0.05
@@ -80,7 +92,7 @@ class MainScene {
           )
         );
       }
-      else if (turnFinished === true && e.keyCode === 39) { //right
+      if (this.turnFinished && e.keyCode === 39) { //right
         this.balls[0].direction.rotateAround(
           new THREE.Vector2(0, 0),
           0.05
@@ -94,13 +106,13 @@ class MainScene {
           )
         );
       }
-      if (turnFinished === true && e.keyCode === 38) { //up
+      if (this.turnFinished && e.keyCode === 38) { //up
         this.speed = (this.speed >= 7) ? 7 : this.speed + 0.2;
       }
-      else if (turnFinished === true && e.keyCode === 40) { //down
+      if (this.turnFinished && e.keyCode === 40) { //down
         this.speed = (this.speed <= 1) ? 1 : this.speed - 0.2;
       }
-      else if (turnFinished === true && e.keyCode === 32) { //spaceBar
+      if (this.turnFinished && e.keyCode === 32) { //spaceBar
         this.balls[0].velocity = new THREE.Vector2(
           this.balls[0].direction.x * this.speed,
           this.balls[0].direction.y * this.speed
@@ -115,11 +127,18 @@ class MainScene {
 
     for (let b of this.balls) {
       if (b.velocity.x != 0 && b.velocity.y != 0) {
-        turnFinished = false;
+        this.turnFinished = false;
         break;
       } else {
-        turnFinished = true;
+        this.turnFinished = true;
       }
+    }
+
+    // Reset the position of the white ball after it's pocketed.
+    if (this.turnFinished && this.balls[0].position.y < 0) {
+      this.balls[0].position.x = 0;
+      this.balls[0].position.y = this.balls[0].radius;
+      this.balls[0].position.z = -1.5;
     }
   }
 
