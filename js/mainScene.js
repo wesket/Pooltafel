@@ -2,8 +2,8 @@ var keuMesh, wballS;
 class MainScene {
   constructor(scene) {
     this.scene = scene;
+
     this.table = new Table(scene);
-    this.table.drawDebug(scene);
 
     var pLight = new THREE.PointLight(0x909070);
     pLight.position.set(0,10,0);
@@ -48,7 +48,7 @@ class MainScene {
     ];
 
     this.players = [
-      new Player(1, false, "Player 1"),
+      new Player(1, false, "Player 1", true),
       new Player(2, true, "Player 2")
     ];
     this.speed = 1.0;
@@ -57,16 +57,31 @@ class MainScene {
     this.playerTurn = 0;
   }
 
-  update(delta) {
-
+  update(delta, input) {
     if (!this.gameOver) {
+      for (let b of this.balls) {
+        if (b.velocity.x != 0 && b.velocity.y != 0) {
+          this.turnFinished = false;
+          break;
+        } else {
+          this.turnFinished = true;
+        }
+      }
       for (let b of this.balls) {
         b.collide(this.balls, delta);
         b.move(delta);
         b.pocket(this.players, this.table, this.scene, this);
       }
-      this.shoot();
-    } else {
+
+      for (let p of this.players) {
+        p.displayStats();
+        if (p.myTurn) {
+          p.ready = this.turnFinished;
+          p.shootBall(input, this.balls);
+        }
+      }
+    }
+    else {
       document.getElementById("game-over-div").style.visibility = "visible";
 
       let s = (this.players[0].score > this.players[1].score) ?
@@ -76,73 +91,4 @@ class MainScene {
     }
 
   }
-
-  shoot() {
-    document.onkeydown = (e, delta) => {
-      e = e || window.event;
-
-      if (this.turnFinished && e.keyCode === 37) { //left
-        this.balls[0].direction.rotateAround(
-          new THREE.Vector2(0, 0),
-          -0.05
-        );
-
-        this.balls[0].arrowHelper.setDirection(
-          new THREE.Vector3(
-            this.balls[0].direction.x,
-            0,
-            this.balls[0].direction.y
-          )
-        );
-      }
-      if (this.turnFinished && e.keyCode === 39) { //right
-        this.balls[0].direction.rotateAround(
-          new THREE.Vector2(0, 0),
-          0.05
-        );
-
-        this.balls[0].arrowHelper.setDirection(
-          new THREE.Vector3(
-            this.balls[0].direction.x,
-            0,
-            this.balls[0].direction.y
-          )
-        );
-      }
-      if (this.turnFinished && e.keyCode === 38) { //up
-        this.speed = (this.speed >= 7) ? 7 : this.speed + 0.2;
-      }
-      if (this.turnFinished && e.keyCode === 40) { //down
-        this.speed = (this.speed <= 1) ? 1 : this.speed - 0.2;
-      }
-      if (this.turnFinished && e.keyCode === 32) { //spaceBar
-        this.balls[0].velocity = new THREE.Vector2(
-          this.balls[0].direction.x * this.speed,
-          this.balls[0].direction.y * this.speed
-        );
-      }
-    }
-
-    document.getElementById("ball-direction").textContent =
-      "Direction: Vect2(" + this.balls[0].direction.x +
-      ", " + this.balls[0].direction.y + ")";
-    document.getElementById("ball-speed").textContent = "Ball speed: " + this.speed;
-
-    for (let b of this.balls) {
-      if (b.velocity.x != 0 && b.velocity.y != 0) {
-        this.turnFinished = false;
-        break;
-      } else {
-        this.turnFinished = true;
-      }
-    }
-
-    // Reset the position of the white ball after it's pocketed.
-    if (this.turnFinished && this.balls[0].position.y < 0) {
-      this.balls[0].position.x = 0;
-      this.balls[0].position.y = this.balls[0].radius;
-      this.balls[0].position.z = -1.5;
-    }
-  }
-
 }

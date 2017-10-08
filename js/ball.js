@@ -8,6 +8,7 @@ class Ball extends THREE.Mesh {
     material = new THREE.MeshPhongMaterial({map: map});
     super (geometry, material);
 
+    this.shootSpeed = 1.0;
     this.number = number;
     this.striped = striped;
     this.position.set(x, radius, z);

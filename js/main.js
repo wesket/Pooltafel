@@ -1,10 +1,12 @@
 // Set up the scene, camera, and renderer as global variables.
-var count = 0, fps, delta, timer, mainScene, scene, camera, renderer;
+var count = 0, fps, delta, timer, mainScene, scene, camera, renderer, input;
 
 init();
 animate();
 
 function init() {
+
+  input = new Input();
 
   scene = new THREE.Scene();
   aspect = window.innerWidth / window.innerHeight;
@@ -52,7 +54,8 @@ function animate() {
     count = 0;
   }
 
-  mainScene.update(delta);
+  input.update();
+  mainScene.update(delta, input);
 
   // Render the scene.
   renderer.render(scene, camera);
