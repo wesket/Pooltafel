@@ -63,12 +63,18 @@ html, body {
 
 .startmenu h1 {
 text-align: center;
+  font-family: Verdana;
+  font-size: 40px;
 }
 
 .startmenu p {
 text-align: center;
+  font-family: Verdana;
+  font-size: 40px;
 }
 
 body.startmenu{
+
   background-color: green;
+  background-image: url('textures/background.png')
 }
