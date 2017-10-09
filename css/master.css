@@ -18,8 +18,13 @@ html, body {
   color: #FFFF00;
   text-shadow: 2px 2px #404040;
   text-align: center;
+  font-family: verdana;
 }
 
+.debug-display{
+  background-color: gray;
+  opacity: 0.5;
+}
 .debug-display {
   position: fixed;
   left: 5px;
@@ -29,6 +34,8 @@ html, body {
   margin: 0;
   color: #FFFF00;
   text-shadow: 2px 2px #404040;
+  font-size: 20px;
+  font-family: Verdana;
 }
 
 .game-display {
@@ -37,17 +44,20 @@ html, body {
   right: 5px;
   top: 2px;
   background-color: gray;
-  font-family: sans-serif;
+  font-family: verdana;
+  opacity: 0.5;
 }
 
 .game-display h4 {
   margin-left: 3cm;
   color: #FFFF00;
   text-shadow: 2px 2px #404040;
+  font-size: 20px;
 }
 
 .game-display p {
   margin-right: 5cm;
+  font-size: 20px;
  }
 
 .button {
@@ -59,22 +69,20 @@ html, body {
   bottom: 0;
   width: 500px; /* width of button */
   height: 150px; /* height of button */
+  font-size: 25px;
 }
 
 .startmenu h1 {
 text-align: center;
   font-family: Verdana;
   font-size: 40px;
+
 }
 
 .startmenu p {
 text-align: center;
   font-family: Verdana;
   font-size: 40px;
+  color: white;
 }
 
-body.startmenu{
-
-  background-color: green;
-  background-image: url('textures/background.png')
-}
